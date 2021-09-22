@@ -41,12 +41,12 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<AuthorDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<AuthorDto>>> Get()
+        public async Task<ActionResult> Get()
         {
             try
             {
                 var result = await _authorService.GetAllAsync();
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -65,12 +65,12 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpGet("[action]")]
         [ProducesResponseType(typeof(IEnumerable<AuthorDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<AuthorDto>>> GetFiltered([FromQuery] AuthorsQuery query)
+        public async Task<ActionResult> GetFiltered([FromQuery] AuthorsQuery query)
         {
             try
             {
                 var result = await _authorService.GetFilteredAsync(query);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _authorService.GetByIdAsync(id);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (KeyNotFoundException ex)
             {

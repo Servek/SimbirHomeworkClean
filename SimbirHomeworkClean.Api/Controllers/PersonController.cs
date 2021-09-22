@@ -74,7 +74,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _personService.UpdateAsync(id, dto);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (KeyNotFoundException ex)
             {
@@ -154,7 +154,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _personService.GetPersonLibraryCardsAsync(id);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -179,7 +179,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _personService.ReceiveBookAsync(id, bookId);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -204,7 +204,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _personService.ReturnBookAsync(id, bookId);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {

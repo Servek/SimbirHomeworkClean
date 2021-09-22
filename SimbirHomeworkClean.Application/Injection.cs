@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimbirHomeworkClean.Application.Contracts.Services;
 using SimbirHomeworkClean.Application.Mapping;
@@ -15,11 +16,7 @@ namespace SimbirHomeworkClean.Application
                                                                      IConfiguration configuration)
         {
             // Маппер
-            services.AddAutoMapper(typeof(AuthorMappingProfile),
-                                   typeof(BookMappingProfile),
-                                   typeof(GenreMappingProfile),
-                                   typeof(PersonMappingProfile),
-                                   typeof(LibraryCardMappingProfile));
+            services.AddAutoMapper(typeof(Injection));
             
             // Сервисы
             services.AddScoped<IAuthorService, AuthorService>();

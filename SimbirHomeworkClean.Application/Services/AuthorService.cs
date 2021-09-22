@@ -88,7 +88,7 @@ namespace SimbirHomeworkClean.Application.Services
             var entity = _mapper.Map<Author>(dto);
             entity = await _authorRepository.AddAsync(entity);
 
-            if (entity.Books.Count > 0)
+            if (entity.Books.Any())
             {
                 var bookGenres = entity.Books
                                        .SelectMany(b => b.Genres)
@@ -96,12 +96,12 @@ namespace SimbirHomeworkClean.Application.Services
                                        .Select(g => g.First())
                                        .ToArray();
 
-                if (bookGenres.Length > 0)
+                if (bookGenres.Any())
                 {
                     var dbGenres = await _genreRepository.GetListByGenreNamesAsync(bookGenres.Select(g2 => g2.GenreName));
                     var newGenres = bookGenres.Where(g => dbGenres.All(eg => eg.GenreName != g.GenreName)).ToList();
 
-                    if (newGenres.Count > 0)
+                    if (newGenres.Any())
                     {
                         newGenres = await _genreRepository.AddRangeAsync(newGenres);
                         dbGenres = dbGenres.Concat(newGenres).ToList();

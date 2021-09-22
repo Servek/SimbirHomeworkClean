@@ -85,7 +85,7 @@ namespace SimbirHomeworkClean.Application.Services
                          ?? await _authorRepository.AddAsync(entity.Author);
 
             // Ищем существующие и добавляем новые жанры
-            if (entity.Genres.Count > 0)
+            if (entity.Genres.Any())
             {
                 var bookGenres = entity.Genres
                                        .GroupBy(g => g.GenreName)
@@ -95,7 +95,7 @@ namespace SimbirHomeworkClean.Application.Services
                 var dbGenres = await _genreRepository.GetListByGenreNamesAsync(bookGenres.Select(g2 => g2.GenreName));
                 var newGenres = bookGenres.Where(g => dbGenres.All(eg => eg.GenreName != g.GenreName)).ToList();
 
-                if (newGenres.Count > 0)
+                if (newGenres.Any())
                 {
                     newGenres = await _genreRepository.AddRangeAsync(newGenres);
                     dbGenres = dbGenres.Concat(newGenres).ToList();
@@ -131,7 +131,7 @@ namespace SimbirHomeworkClean.Application.Services
             entity.Author = author;
 
             // Ищем существующие и добавляем новые жанры
-            if (entity.Genres.Count > 0)
+            if (entity.Genres.Any())
             {
                 var bookGenres = entity.Genres
                                        .GroupBy(g => g.GenreName)
@@ -141,7 +141,7 @@ namespace SimbirHomeworkClean.Application.Services
                 var dbGenres = await _genreRepository.GetListByGenreNamesAsync(bookGenres.Select(g2 => g2.GenreName));
                 var newGenres = bookGenres.Where(g => dbGenres.All(eg => eg.GenreName != g.GenreName)).ToList();
 
-                if (newGenres.Count > 0)
+                if (newGenres.Any())
                     dbGenres.AddRange(await _genreRepository.AddRangeAsync(newGenres));
 
                 entity.Genres = dbGenres;
@@ -159,7 +159,7 @@ namespace SimbirHomeworkClean.Application.Services
             if (entity == null)
                 throw new KeyNotFoundException("Сущность с идентификатором " + id + " не найдена");
 
-            if (entity.LibraryCards.Count > 0)
+            if (entity.LibraryCards.Any())
                 throw new ConstraintException("Книгу с идентификатором " + id + " нельзя удалить, пока она у кого-то на руках");
 
             await _bookRepository.DeleteAsync(entity);

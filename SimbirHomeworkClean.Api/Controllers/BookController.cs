@@ -47,7 +47,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _bookService.GetFilteredAsync(query);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _bookService.UpdateAsync(id, dto);
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (KeyNotFoundException ex)
             {

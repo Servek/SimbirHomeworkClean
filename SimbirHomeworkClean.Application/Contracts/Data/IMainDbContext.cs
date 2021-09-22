@@ -11,26 +11,26 @@ namespace SimbirHomeworkClean.Application.Contracts.Data
         /// <summary>
         /// Авторы
         /// </summary>
-        public DbSet<Author> Author { get; }
+        DbSet<Author> Author { get; }
 
         /// <summary>
         /// Жанры
         /// </summary>
-        public DbSet<Genre> Genre { get; }
+        DbSet<Genre> Genre { get; }
 
         /// <summary>
         /// Люди
         /// </summary>
-        public DbSet<Person> Person { get; }
+        DbSet<Person> Person { get; }
 
         /// <summary>
         /// Книги
         /// </summary>
-        public DbSet<Book> Book { get; }
+        DbSet<Book> Book { get; }
 
         /// <summary>
         /// Записи о получении книг людьми
         /// </summary>
-        public DbSet<LibraryCard> LibraryCard { get; }
+        DbSet<LibraryCard> LibraryCard { get; }
     }
 }

@@ -35,16 +35,16 @@ namespace SimbirHomeworkClean.Infrastructure.Repositories
                                 .AsNoTracking();
 
             if (!string.IsNullOrEmpty(filter.AuthorFirstName))
-                books = books.Where(p => p.Author.FirstName == filter.AuthorFirstName);
+                books = books.Where(b => b.Author.FirstName.Equals(filter.AuthorFirstName));
 
             if (!string.IsNullOrEmpty(filter.AuthorLastName))
-                books = books.Where(p => p.Author.LastName == filter.AuthorLastName);
+                books = books.Where(b => b.Author.LastName.Equals(filter.AuthorLastName));
 
             if (!string.IsNullOrEmpty(filter.AuthorMiddleName))
-                books = books.Where(p => p.Author.MiddleName == filter.AuthorMiddleName);
+                books = books.Where(b => b.Author.MiddleName.Equals(filter.AuthorMiddleName));
 
             if (!string.IsNullOrEmpty(filter.GenreName))
-                books = books.Where(p => p.Genres.Select(g => g.GenreName).Contains(filter.GenreName));
+                books = books.Where(b => b.Genres.Select(g => g.GenreName).Contains(filter.GenreName));
 
             return await books.ToListAsync();
         }

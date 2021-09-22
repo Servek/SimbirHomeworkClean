@@ -32,19 +32,19 @@ namespace SimbirHomeworkClean.Infrastructure.Repositories
             var authors = _context.Author.AsNoTracking();
 
             if (!string.IsNullOrEmpty(filter.FirstName))
-                authors = authors.Where(a => a.FirstName == filter.FirstName);
+                authors = authors.Where(a => a.FirstName.Equals(filter.FirstName));
 
             if (!string.IsNullOrEmpty(filter.LastName))
-                authors = authors.Where(a => a.LastName == filter.LastName);
+                authors = authors.Where(a => a.LastName.Equals(filter.LastName));
 
             if (!string.IsNullOrEmpty(filter.MiddleName))
-                authors = authors.Where(a => a.MiddleName == filter.MiddleName);
+                authors = authors.Where(a => a.MiddleName.Equals(filter.MiddleName));
 
             if (filter.FullName.HasValue)
             {
-                authors = authors.Where(a => a.FirstName == filter.FullName.Value.FirstName
-                                          && a.LastName == filter.FullName.Value.LastName
-                                          && a.MiddleName == filter.FullName.Value.MiddleName);
+                authors = authors.Where(a => a.FirstName.Equals(filter.FullName.Value.FirstName)
+                                          && a.LastName.Equals(filter.FullName.Value.LastName)
+                                          && a.MiddleName.Equals(filter.FullName.Value.MiddleName));
             }
 
             if (filter.BookWritingYear.HasValue)

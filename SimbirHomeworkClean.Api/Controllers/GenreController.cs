@@ -45,7 +45,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _genreService.GetAllAsync();
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace SimbirHomeworkClean.Api.Controllers
             try
             {
                 var result = await _genreService.GetStatisticAsync();
-                return StatusCode(StatusCodes.Status200OK, result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
