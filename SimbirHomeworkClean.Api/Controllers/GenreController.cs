@@ -40,7 +40,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GenreDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<GenreDto>>> Get()
+        public async Task<ActionResult> Get()
         {
             try
             {
@@ -63,7 +63,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpGet("[action]")]
         [ProducesResponseType(typeof(IEnumerable<GenreStatisticDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<GenreStatisticDto>>> Statistic()
+        public async Task<ActionResult> Statistic()
         {
             try
             {
@@ -87,7 +87,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(GenreDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GenreDto>> Post([FromBody] CreateGenreDto dto)
+        public async Task<ActionResult> Post([FromBody] CreateGenreDto dto)
         {
             try
             {

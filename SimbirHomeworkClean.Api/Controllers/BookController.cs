@@ -42,7 +42,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<FullBookDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<FullBookDto>>> GetFiltered([FromQuery] BooksQuery query)
+        public async Task<ActionResult> GetFiltered([FromQuery] BooksQuery query)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(FullBookDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<FullBookDto>> Post([FromBody] CreateBookWithGenresDto dto)
+        public async Task<ActionResult> Post([FromBody] CreateBookWithGenresDto dto)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [ProducesResponseType(typeof(FullBookDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<FullBookDto>> Put([FromRoute] int id, [FromBody] CreateBookWithGenresDto dto)
+        public async Task<ActionResult> Put([FromRoute] int id, [FromBody] CreateBookWithGenresDto dto)
         {
             try
             {

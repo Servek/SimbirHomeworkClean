@@ -42,7 +42,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(PersonDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PersonDto>> Post([FromBody] CreatePersonDto dto)
+        public async Task<ActionResult> Post([FromBody] CreatePersonDto dto)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [ProducesResponseType(typeof(PersonDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PersonDto>> Put([FromRoute] int id, [FromBody] CreatePersonDto dto)
+        public async Task<ActionResult> Put([FromRoute] int id, [FromBody] CreatePersonDto dto)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpGet("{id:int}/Book")]
         [ProducesResponseType(typeof(IEnumerable<LibraryCardWithoutPersonDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<LibraryCardWithoutPersonDto>>> GetPersonLibraryCards([FromRoute] int id)
+        public async Task<ActionResult> GetPersonLibraryCards([FromRoute] int id)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpPost("{id:int}/Book")]
         [ProducesResponseType(typeof(PersonWithLibraryCardsDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PersonWithLibraryCardsDto>> ReceiveBook([FromRoute] int id, [FromBody] int bookId)
+        public async Task<ActionResult> ReceiveBook([FromRoute] int id, [FromBody] int bookId)
         {
             try
             {
@@ -199,7 +199,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpDelete("{id:int}/Book")]
         [ProducesResponseType(typeof(PersonWithLibraryCardsDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PersonWithLibraryCardsDto>> ReturnBook([FromRoute] int id, [FromBody] int bookId)
+        public async Task<ActionResult> ReturnBook([FromRoute] int id, [FromBody] int bookId)
         {
             try
             {

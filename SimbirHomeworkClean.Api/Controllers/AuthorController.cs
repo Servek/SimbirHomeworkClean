@@ -91,7 +91,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [ProducesResponseType(typeof(FullAuthorDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<FullAuthorDto>> Get([FromRoute] int id)
+        public async Task<ActionResult> Get([FromRoute] int id)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace SimbirHomeworkClean.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(AuthorDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<AuthorDto>> Post([FromBody] CreateAuthorWithBooksDto dto)
+        public async Task<ActionResult> Post([FromBody] CreateAuthorWithBooksDto dto)
         {
             try
             {
