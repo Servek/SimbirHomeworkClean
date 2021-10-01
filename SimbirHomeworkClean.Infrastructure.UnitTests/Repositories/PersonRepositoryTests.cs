@@ -96,9 +96,7 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedCount = await context.LibraryCard
-                                             .Where(lc => lc.PersonId == 1)
-                                             .CountAsync();
+            const int expectedCount = 2;
 
             var repository = new PersonRepository(context);
 

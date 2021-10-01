@@ -34,7 +34,7 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedCount = context.Genre.Count();
+            var expectedCount = 3;
             var repository = new GenreRepository(context);
 
             // Act
@@ -49,7 +49,11 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedGenre = await context.Genre.FindAsync(1);
+            var expectedGenre = new Genre
+            {
+                Id = 1,
+                GenreName = "Роман"
+            };
             var repository = new GenreRepository(context);
 
             // Act
@@ -195,16 +199,16 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedGenres = context.Genre.ToList();
+            var expectedGenres = new [] { "Роман", "Фантастика"};
             var repository = new GenreRepository(context);
 
             // Act
-            var genres = await repository.GetListByGenreNamesAsync(new[] { expectedGenres[0].GenreName, expectedGenres[1].GenreName });
+            var genres = await repository.GetListByGenreNamesAsync(new[] { expectedGenres[0], expectedGenres[1] });
 
             // Assert
-            Assert.Contains(expectedGenres[0].GenreName, genres.Select(g => g.GenreName));
-            Assert.Contains(expectedGenres[1].GenreName, genres.Select(g => g.GenreName));
-            Assert.DoesNotContain(expectedGenres[2].GenreName, genres.Select(g => g.GenreName));
+            Assert.Contains(expectedGenres[0], genres.Select(g => g.GenreName));
+            Assert.Contains(expectedGenres[1], genres.Select(g => g.GenreName));
+            Assert.DoesNotContain("Детектив", genres.Select(g => g.GenreName));
         }
 
         [Fact]
@@ -222,8 +226,7 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             var statistic = await repository.GetStatisticAsync();
 
             // Assert
-            Assert.Equal(expectedStatistic[2].Item1, statistic[2].Item1);
-            Assert.Equal(expectedStatistic[2].Item2, statistic[2].Item2);
+            Assert.Equal(3, statistic.Count);
         }
     }
 }
