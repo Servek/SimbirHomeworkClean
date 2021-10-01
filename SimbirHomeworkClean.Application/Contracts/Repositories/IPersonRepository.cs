@@ -23,17 +23,17 @@ namespace SimbirHomeworkClean.Application.Contracts.Repositories
         Task<List<LibraryCard>> GetLibraryCardsAsync(int id);
 
         /// <summary>
-        /// Получение книг на руках у человека
+        /// Добавление записи о получении книги человеком
         /// </summary>
-        /// <param name="entity">Сущность человека</param>
+        /// <param name="id">Идентификатор человека</param>
         /// <param name="bookId">Идентификатор получаемой книги</param>
-        Task<Person> ReceiveBookAsync(Person entity, int bookId);
+        Task<Person> ReceiveBookAsync(int id, int bookId);
 
         /// <summary>
-        /// Получение книг на руках у человека
+        /// Удаление записи о получении книги человеком
         /// </summary>
-        /// <param name="entity">Сущность человека</param>
+        /// <param name="id">Идентификатор человека</param>
         /// <param name="bookId">Идентификатор возвращаемой книги</param>
-        Task<Person> ReturnBookAsync(Person entity, int bookId);
+        Task<Person> ReturnBookAsync(int id, int bookId);
     }
 }

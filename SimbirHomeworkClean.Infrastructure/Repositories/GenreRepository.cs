@@ -31,7 +31,7 @@ namespace SimbirHomeworkClean.Infrastructure.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<List<(Genre, int)>> GetListByGenreNamesAsync()
+        public async Task<List<(Genre, int)>> GetStatisticAsync()
         {
             return await _context.Genre
                                  .Select(g => new Tuple<Genre, int>(g, g.Books.Count).ToValueTuple())

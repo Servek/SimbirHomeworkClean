@@ -36,6 +36,29 @@ namespace SimbirHomeworkClean.Infrastructure.Data
         public DbSet<LibraryCard> LibraryCard { get; set; }
 
         /// <inheritdoc />
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        // Пункт задания: 9.1.1.
+                        entry.Entity.Created = DateTime.Now;
+                        entry.Entity.Updated = DateTime.Now;
+                        break;
+
+                    case EntityState.Modified:
+                        // Пункт задания: 9.1.2.
+                        entry.Entity.Updated = DateTime.Now;
+                        break;
+                }
+            }
+
+            return base.SaveChanges();
+        }
+
+        /// <inheritdoc />
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

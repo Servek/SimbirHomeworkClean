@@ -57,11 +57,11 @@ namespace SimbirHomeworkClean.Infrastructure.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Person> ReceiveBookAsync(Person entity, int bookId)
+        public async Task<Person> ReceiveBookAsync(int id, int bookId)
         {
             await _context.LibraryCard.AddAsync(new LibraryCard
             {
-                PersonId = entity.Id,
+                PersonId = id,
                 BookId = bookId,
                 ObtainedDateTime = DateTimeOffset.Now
             });
@@ -69,7 +69,7 @@ namespace SimbirHomeworkClean.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return await _context.Person
-                                 .Where(p => p.Id == entity.Id)
+                                 .Where(p => p.Id == id)
                                  .Include(lc => lc.LibraryCards)
                                  .ThenInclude(b => b.Book)
                                  .AsNoTracking()
@@ -77,14 +77,14 @@ namespace SimbirHomeworkClean.Infrastructure.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Person> ReturnBookAsync(Person entity, int bookId)
+        public async Task<Person> ReturnBookAsync(int id, int bookId)
         {
-            var libraryCard = await _context.LibraryCard.SingleOrDefaultAsync(lc => lc.PersonId == entity.Id && lc.BookId == bookId);
+            var libraryCard = await _context.LibraryCard.SingleOrDefaultAsync(lc => lc.PersonId == id && lc.BookId == bookId);
             _context.Remove(libraryCard);
             await _context.SaveChangesAsync();
 
             return await _context.Person
-                                 .Where(p => p.Id == entity.Id)
+                                 .Where(p => p.Id == id)
                                  .Include(lc => lc.LibraryCards)
                                  .ThenInclude(b => b.Book)
                                  .AsNoTracking()
