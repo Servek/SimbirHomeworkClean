@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using SimbirHomeworkClean.Application.Filters;
 using SimbirHomeworkClean.Infrastructure.Repositories;
 using SimbirHomeworkClean.Infrastructure.UnitTests.Fixtures;

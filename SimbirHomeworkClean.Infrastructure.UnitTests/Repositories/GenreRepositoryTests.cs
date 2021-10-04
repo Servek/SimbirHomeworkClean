@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using SimbirHomeworkClean.Domain.Entities;
 using SimbirHomeworkClean.Infrastructure.Repositories;
+using SimbirHomeworkClean.Infrastructure.UnitTests.Extensions;
 using SimbirHomeworkClean.Infrastructure.UnitTests.Fixtures;
 using Xunit;
 
@@ -28,20 +31,23 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             _fixture = fixture;
         }
 
-        #region From base repository // Тестирование методов из базового репозитория
+        #region From base repository
+        // Тестирование методов из базового репозитория
         [Fact]
         public async Task GetListAsync_ShouldReturn_Genres()
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedCount = 3;
+            var expected = await context.Genre.ToListAsync();
             var repository = new GenreRepository(context);
 
             // Act
             var genres = await repository.GetListAsync();
 
             // Assert
-            Assert.Equal(expectedCount, genres.Count);
+            // Так как беру expected из контекста, то ExcludingAuditableFields не нужен
+            // Но если подготавливать expected вручную, то надо исключить такие поля, как Created/Updated/RowVersion
+            genres.Should().BeEquivalentTo(expected, opt => opt.ExcludingAuditingMembers());
         }
 
         [Fact]
@@ -49,19 +55,14 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedGenre = new Genre
-            {
-                Id = 1,
-                GenreName = "Роман"
-            };
+            var expected = await context.Genre.FindAsync(1);
             var repository = new GenreRepository(context);
 
             // Act
             var genre = await repository.GetByIdAsync(1);
 
             // Assert
-            Assert.Equal(expectedGenre.Id, genre.Id);
-            Assert.Equal(expectedGenre.GenreName, genre.GenreName);
+            genre.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -82,8 +83,8 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             // Assert
             await using (var context = _fixture.CreateContext(transaction))
             {
-                var addedGenre = context.Genre.SingleOrDefault(g => g.GenreName == expectedGenre.GenreName);
-                Assert.NotNull(addedGenre);
+                var final = await context.Genre.ToArrayAsync();
+                final.Should().Contain(g => g.GenreName == expectedGenre.GenreName);
             }
         }
 
@@ -110,11 +111,9 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             // Assert
             await using (var context = _fixture.CreateContext(transaction))
             {
-                var addedGenre1 = context.Genre.SingleOrDefault(g => g.GenreName == expectedGenres[0].GenreName);
-                var addedGenre2 = context.Genre.SingleOrDefault(g => g.GenreName == expectedGenres[1].GenreName);
-
-                Assert.NotNull(addedGenre1);
-                Assert.NotNull(addedGenre2);
+                var final = await context.Genre.ToArrayAsync();
+                final.Should().Contain(g => g.GenreName == expectedGenres[0].GenreName);
+                final.Should().Contain(g => g.GenreName == expectedGenres[1].GenreName);
             }
         }
 
@@ -138,8 +137,7 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             // Assert
             await using (var context = _fixture.CreateContext(transaction))
             {
-                var updatedGenre = await context.Genre.FindAsync(1);
-                Assert.Equal(expectedGenreName, updatedGenre.GenreName);
+                (await context.Genre.FindAsync(1)).GenreName.Should().Be(expectedGenreName);
             }
         }
 
@@ -161,8 +159,7 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             // Assert
             await using (var context = _fixture.CreateContext(transaction))
             {
-                var deletedGenre = await context.Genre.FindAsync(1);
-                Assert.Null(deletedGenre);
+                (await context.Genre.FindAsync(1)).Should().BeNull();
             }
         }
 
@@ -185,11 +182,8 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             // Assert
             await using (var context = _fixture.CreateContext(transaction))
             {
-                var deletedGenre1 = await context.Genre.FindAsync(1);
-                var deletedGenre2 = await context.Genre.FindAsync(2);
-
-                Assert.Null(deletedGenre1);
-                Assert.Null(deletedGenre2);
+                (await context.Genre.FindAsync(1)).Should().BeNull();
+                (await context.Genre.FindAsync(2)).Should().BeNull();
             }
         }
         #endregion
@@ -199,16 +193,16 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedGenres = new [] { "Роман", "Фантастика"};
+            var expected = new[] { "Роман", "Фантастика" };
             var repository = new GenreRepository(context);
 
             // Act
-            var genres = await repository.GetListByGenreNamesAsync(new[] { expectedGenres[0], expectedGenres[1] });
+            var genres = await repository.GetListByGenreNamesAsync(new[] { expected[0], expected[1] });
 
             // Assert
-            Assert.Contains(expectedGenres[0], genres.Select(g => g.GenreName));
-            Assert.Contains(expectedGenres[1], genres.Select(g => g.GenreName));
-            Assert.DoesNotContain("Детектив", genres.Select(g => g.GenreName));
+            genres.Should().Contain(g => g.GenreName == expected[0]);
+            genres.Should().Contain(g => g.GenreName == expected[1]);
+            genres.Should().NotContain(g => g.GenreName == "Детектив");
         }
 
         [Fact]
@@ -216,9 +210,9 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
         {
             // Arrange
             await using var context = _fixture.CreateContext();
-            var expectedStatistic = context.Genre
-                                           .Select(g => new Tuple<Genre, int>(g, g.Books.Count).ToValueTuple())
-                                           .ToList();
+            var expected = await context.Genre
+                                        .Select(g => new Tuple<Genre, int>(g, g.Books.Count).ToValueTuple())
+                                        .ToListAsync();
 
             var repository = new GenreRepository(context);
 
@@ -226,7 +220,7 @@ namespace SimbirHomeworkClean.Infrastructure.UnitTests.Repositories
             var statistic = await repository.GetStatisticAsync();
 
             // Assert
-            Assert.Equal(3, statistic.Count);
+            statistic.Should().BeEquivalentTo(expected);
         }
     }
 }
