@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
 
 namespace SimbirHomeworkClean.Application.DTOs.Author.Base
 {
@@ -10,18 +10,31 @@ namespace SimbirHomeworkClean.Application.DTOs.Author.Base
         /// <summary>
         /// Имя
         /// </summary>
-        [Required]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Фамилия
         /// </summary>
-        [Required]
         public string LastName { get; set; }
 
         /// <summary>
         /// Отчество
         /// </summary>
         public string MiddleName { get; set; }
+    }
+
+    /// <summary>
+    /// Валидатор транспортного объекта автора без идентификатора и внешних сущностей
+    /// </summary>
+    public class BaseAuthorDtoValidator : AbstractValidator<BaseAuthorDto>
+    {
+        /// <summary>
+        /// Правила валидатора
+        /// </summary>
+        public BaseAuthorDtoValidator()
+        {
+            RuleFor(x => x.FirstName).NotNull();
+            RuleFor(x => x.LastName).NotNull();
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace SimbirHomeworkClean.Application.DTOs.Person.Base
 {
@@ -11,13 +11,11 @@ namespace SimbirHomeworkClean.Application.DTOs.Person.Base
         /// <summary>
         /// Имя
         /// </summary>
-        [Required]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Фамилия
         /// </summary>
-        [Required]
         public string LastName { get; set; }
 
         /// <summary>
@@ -28,7 +26,23 @@ namespace SimbirHomeworkClean.Application.DTOs.Person.Base
         /// <summary>
         /// Дата рождения
         /// </summary>
-        [Required]
         public DateTime BirthDate { get; set; }
+    }
+
+    // Лекции 4-5. Пункт задания: 1
+    /// <summary>
+    /// Валидатор базового транспортного объекта человека
+    /// </summary>
+    public class BasePersonDtoValidator : AbstractValidator<BasePersonDto>
+    {
+        /// <summary>
+        /// Правила валидатора
+        /// </summary>
+        public BasePersonDtoValidator()
+        {
+            RuleFor(x => x.FirstName).NotNull();
+            RuleFor(x => x.LastName).NotNull();
+            RuleFor(x => x.BirthDate).NotNull();
+        }
     }
 }

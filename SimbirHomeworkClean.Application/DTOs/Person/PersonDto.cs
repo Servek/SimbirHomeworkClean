@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
 using SimbirHomeworkClean.Application.DTOs.Person.Base;
 
 namespace SimbirHomeworkClean.Application.DTOs.Person
@@ -12,7 +11,22 @@ namespace SimbirHomeworkClean.Application.DTOs.Person
         /// <summary>
         /// Идентификатор
         /// </summary>
-        [Required]
         public int Id { get; set; }
+    }
+
+    // Лекции 4-5. Пункт задания: 1
+    /// <summary>
+    /// Валидатор транспортного объекта человека
+    /// </summary>
+    public class PersonDtoValidator : AbstractValidator<PersonDto>
+    {
+        /// <summary>
+        /// Правила валидатора
+        /// </summary>
+        public PersonDtoValidator()
+        {
+            Include(new BasePersonDtoValidator());
+            RuleFor(x => x.Id).NotNull();
+        }
     }
 }
