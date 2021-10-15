@@ -166,6 +166,8 @@ namespace SimbirHomeworkClean.Application.UnitTests.Services
             await service.DeleteByFullNameAsync(new DeletePersonByFullNameCommand { FirstName = "TestFirstName1", LastName = "TestLastName1", MiddleName = "TestMiddleName1" });
 
             // Assert
+            Assert.Single(personRepositoryMock.Invocations.Where(x => x.Method.Name == "DeleteRangeAsync"));
+            Assert.Single(personRepositoryMock.Invocations.Where(x => x.Method.Name == "GetFilteredListAsync"));
             Assert.Single(people);
             Assert.All(people, p => Assert.NotEqual("TestFirstName1", p.FirstName));
             Assert.All(people, p => Assert.NotEqual("TestLastName1", p.LastName));
@@ -173,7 +175,7 @@ namespace SimbirHomeworkClean.Application.UnitTests.Services
         }
 
         [Fact]
-        public async Task GetPersonLibraryCardsAsync_WithExistId_ShouldReturn_LibraryCards()
+        public async Task GetPersonLibraryCardsAsync_WithExistId_ShouldReturn_ExpectedLibraryCardsCount()
         {
             // Arrange
             var libraryCards = new List<LibraryCard>

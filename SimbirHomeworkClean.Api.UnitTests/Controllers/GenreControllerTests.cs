@@ -17,7 +17,7 @@ namespace SimbirHomeworkClean.Api.UnitTests.Controllers
     public class GenreControllerTests
     {
         [Fact]
-        public async Task Get_ShouldReturn_Genres()
+        public async Task Get_ShouldReturn_ExpectedGenreCount()
         {
             // Arrange
             var genre1 = new GenreDto { Id = 1, GenreName = "TestGenre1" };
@@ -25,11 +25,11 @@ namespace SimbirHomeworkClean.Api.UnitTests.Controllers
             var genres = new[] { genre1, genre2 }.AsEnumerable();
 
             // Пункт задания: 1.4.
-            var genreRepositoryMock = new Mock<IGenreService>();
+            var genreServiceMock = new Mock<IGenreService>();
 
-            genreRepositoryMock.Setup(r => r.GetAllAsync()).Returns(Task.FromResult(genres));
+            genreServiceMock.Setup(r => r.GetAllAsync()).Returns(Task.FromResult(genres));
 
-            var controller = new GenreController(genreRepositoryMock.Object);
+            var controller = new GenreController(genreServiceMock.Object);
 
             // Act
             var result = (IEnumerable<GenreDto>)((OkObjectResult)await controller.Get()).Value;
@@ -39,27 +39,27 @@ namespace SimbirHomeworkClean.Api.UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Statistic_ShouldReturn_GenreStatistic()
+        public async Task Statistic_ShouldReturn_ExpectedGenreStatisticCount()
         {
             // Arrange
             var genre1 = new GenreDto { Id = 1, GenreName = "TestGenre1" };
             var genre2 = new GenreDto { Id = 2, GenreName = "TestGenre2" };
             var genreStatistic1 = new GenreStatisticDto { Genre = genre1, BookCount = 6 };
             var genreStatistic2 = new GenreStatisticDto { Genre = genre2, BookCount = 8 };
-            var genres = new[] { genreStatistic1, genreStatistic2 }.AsEnumerable();
+            var genresStatistic = new[] { genreStatistic1, genreStatistic2 }.AsEnumerable();
 
             // Пункт задания: 1.4.
-            var genreRepositoryMock = new Mock<IGenreService>();
+            var genreServiceMock = new Mock<IGenreService>();
 
-            genreRepositoryMock.Setup(r => r.GetStatisticAsync()).Returns(Task.FromResult(genres));
+            genreServiceMock.Setup(r => r.GetStatisticAsync()).Returns(Task.FromResult(genresStatistic));
 
-            var controller = new GenreController(genreRepositoryMock.Object);
+            var controller = new GenreController(genreServiceMock.Object);
 
             // Act
             var result = (IEnumerable<GenreStatisticDto>)((OkObjectResult)await controller.Statistic()).Value;
 
             // Assert
-            Assert.Equal(genres.Count(), result.Count());
+            Assert.Equal(genresStatistic.Count(), result.Count());
         }
 
         [Fact]
@@ -69,16 +69,16 @@ namespace SimbirHomeworkClean.Api.UnitTests.Controllers
             var genre1 = new CreateGenreDto { GenreName = "TestGenre1" };
 
             // Пункт задания: 1.4.
-            var genreRepositoryMock = new Mock<IGenreService>();
+            var genreServiceMock = new Mock<IGenreService>();
 
-            genreRepositoryMock.Setup(r => r.CreateAsync(It.IsAny<CreateGenreDto>()))
+            genreServiceMock.Setup(r => r.CreateAsync(It.IsAny<CreateGenreDto>()))
                                .Returns((CreateGenreDto g) => Task.FromResult(new GenreDto
                                 {
                                     Id = 5,
                                     GenreName = g.GenreName
                                 }));
 
-            var controller = new GenreController(genreRepositoryMock.Object);
+            var controller = new GenreController(genreServiceMock.Object);
 
             // Act
             var result = (GenreDto)((ObjectResult)await controller.Post(genre1)).Value;
