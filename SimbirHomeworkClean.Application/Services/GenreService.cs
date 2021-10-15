@@ -45,7 +45,7 @@ namespace SimbirHomeworkClean.Application.Services
         /// <inheritdoc />
         public async Task<IEnumerable<GenreStatisticDto>> GetStatisticAsync()
         {
-            var statistic = await _genreRepository.GetListByGenreNamesAsync();
+            var statistic = await _genreRepository.GetStatisticAsync();
 
             return statistic.Select(s => new GenreStatisticDto
             {

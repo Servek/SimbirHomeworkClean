@@ -21,6 +21,6 @@ namespace SimbirHomeworkClean.Application.Contracts.Repositories
         /// Получение статистики по жанрам (жанр - количество книг)
         /// </summary>
         /// <returns>Перечень жанров с количеством книг</returns>
-        Task<List<(Genre, int)>> GetListByGenreNamesAsync();
+        Task<List<(Genre, int)>> GetStatisticAsync();
     }
 }

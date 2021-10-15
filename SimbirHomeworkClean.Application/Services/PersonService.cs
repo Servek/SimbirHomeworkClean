@@ -96,7 +96,7 @@ namespace SimbirHomeworkClean.Application.Services
             if (entity == null)
                 throw new KeyNotFoundException("Сущность с идентификатором " + id + " не найдена");
 
-            return _mapper.Map<PersonWithLibraryCardsDto>(await _personRepository.ReceiveBookAsync(entity, bookId));
+            return _mapper.Map<PersonWithLibraryCardsDto>(await _personRepository.ReceiveBookAsync(id, bookId));
         }
 
         /// <inheritdoc />
@@ -106,7 +106,7 @@ namespace SimbirHomeworkClean.Application.Services
             if (entity == null)
                 throw new KeyNotFoundException("Сущность с идентификатором " + id + " не найдена");
 
-            return _mapper.Map<PersonWithLibraryCardsDto>(await _personRepository.ReturnBookAsync(entity, bookId));
+            return _mapper.Map<PersonWithLibraryCardsDto>(await _personRepository.ReturnBookAsync(id, bookId));
         }
     }
 }
