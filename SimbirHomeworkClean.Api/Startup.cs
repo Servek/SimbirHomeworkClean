@@ -56,11 +56,11 @@ namespace SimbirHomeworkClean.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                // Лекции 4-5. Пункт задания: 3
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimbirHomeworkClean.Api v1"));
             }
+
+            // Лекции 4-5. Пункт задания: 3 (чтобы с релизной версии открыть сваггер вынес его из "Development")
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimbirHomeworkClean.Api v1"));
 
             app.UseHttpsRedirection();
 
