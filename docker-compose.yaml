@@ -1,0 +1,25 @@
+# Лекции 4-5. Пункт задания: 4-6
+version: "3.8"
+
+volumes:
+  mssql_volume:
+
+services:
+  api:
+    build: .
+    ports:
+      - "8080:80"
+      - "8081:443"
+    environment:
+      - ConnectionStrings:LocalConnection=Server=mssql_server;Database=SimbirHomeworkClean-local;User Id=sa;Password=Pas_sword123;
+
+  mssql_server:
+    image: mcr.microsoft.com/mssql/server
+    ports:
+      - "1434:1433"
+    volumes:
+      - mssql_volume:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+      - SA_PASSWORD=Pas_sword123

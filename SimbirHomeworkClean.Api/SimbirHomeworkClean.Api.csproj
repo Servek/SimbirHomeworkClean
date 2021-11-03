@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\SimbirHomeworkClean.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\SimbirHomeworkClean.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SimbirHomeworkClean.Application\SimbirHomeworkClean.Application.csproj" />
+        <ProjectReference Include="..\SimbirHomeworkClean.Infrastructure\SimbirHomeworkClean.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
