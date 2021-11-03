@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
 
 namespace SimbirHomeworkClean.Application.DTOs.Genre
 {
@@ -10,13 +10,27 @@ namespace SimbirHomeworkClean.Application.DTOs.Genre
         /// <summary>
         /// Жанр
         /// </summary>
-        [Required]
         public GenreDto Genre { get; set; }
 
         /// <summary>
         /// Количество книг
         /// </summary>
-        [Required]
         public int BookCount { get; set; }
+    }
+
+    // Лекции 4-5. Пункт задания: 1
+    /// <summary>
+    /// Валидатор транспортного объекта статистики по жанру
+    /// </summary>
+    public class GenreStatisticDtoValidator : AbstractValidator<GenreStatisticDto>
+    {
+        /// <summary>
+        /// Правила валидатора
+        /// </summary>
+        public GenreStatisticDtoValidator()
+        {
+            RuleFor(x => x.Genre).NotNull();
+            RuleFor(x => x.BookCount).NotNull();
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SimbirHomeworkClean.Application.DTOs.Person.Base;
+﻿using FluentValidation;
 
 namespace SimbirHomeworkClean.Application.DTOs.Person
 {
@@ -11,18 +10,32 @@ namespace SimbirHomeworkClean.Application.DTOs.Person
         /// <summary>
         /// Имя
         /// </summary>
-        [Required]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Фамилия
         /// </summary>
-        [Required]
         public string LastName { get; set; }
 
         /// <summary>
         /// Отчество
         /// </summary>
         public string MiddleName { get; set; }
+    }
+
+    // Лекции 4-5. Пункт задания: 1
+    /// <summary>
+    /// Валидатор команды на удаления человека по ФИО
+    /// </summary>
+    public class DeletePersonByFullNameCommandValidator : AbstractValidator<DeletePersonByFullNameCommand>
+    {
+        /// <summary>
+        /// Правила валидатора
+        /// </summary>
+        public DeletePersonByFullNameCommandValidator()
+        {
+            RuleFor(x => x.FirstName).NotNull();
+            RuleFor(x => x.LastName).NotNull();
+        }
     }
 }

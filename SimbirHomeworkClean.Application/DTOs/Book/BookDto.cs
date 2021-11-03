@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
 using SimbirHomeworkClean.Application.DTOs.Book.Base;
 
 namespace SimbirHomeworkClean.Application.DTOs.Book
@@ -11,7 +11,22 @@ namespace SimbirHomeworkClean.Application.DTOs.Book
         /// <summary>
         /// Идентификатор
         /// </summary>
-        [Required]
         public int Id { get; set; }
+    }
+
+    // Лекции 4-5. Пункт задания: 1
+    /// <summary>
+    /// Валидатор транспортного объекта книги
+    /// </summary>
+    public class BookDtoValidator : AbstractValidator<BookDto>
+    {
+        /// <summary>
+        /// Правила валидатора
+        /// </summary>
+        public BookDtoValidator()
+        {
+            Include(new BaseBookDtoValidator());
+            RuleFor(x => x.Id).NotNull();
+        }
     }
 }
